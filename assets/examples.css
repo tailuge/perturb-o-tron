@@ -1,0 +1,69 @@
+/* Unrelated to chessground; only for the examples page */
+
+body {
+  background-image: linear-gradient(to bottom, #2c2c2c, #1a1a1a 116px);
+  color: #b0b0b0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+}
+
+a {
+  color: #bbbbdd;
+  text-decoration: none;
+}
+
+h2 {
+  text-align: center;
+}
+
+select,
+input {
+  width: 90px;
+  margin: 4px;
+  background-color: black;
+  color: #cccccc;
+}
+
+#Search {
+  background-color: lightgrey;
+  color: black;
+}
+
+#chessground-examples {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+#chessground-examples section {
+  display: inline-block;
+  background: #303030;
+  padding: 10px 10px 0 10px;
+  border-radius: 3px;
+  margin: 1px 1px;
+}
+
+#chessground-examples .solved {
+  background: #050;
+}
+
+#chessground-examples .incorrect {
+  background: #600;
+}
+
+#chessground-examples section p {
+  text-align: center;
+  margin: 16px 0 4px 0;
+}
+
+#chessground-examples control {
+  margin-left: 20px;
+}
+
+.inputs {
+  background-color: #222;
+  border-radius: 3px;
+  padding: 2px;
+  margin: 2px 2px;
+}
