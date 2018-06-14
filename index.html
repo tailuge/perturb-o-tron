@@ -2,14 +2,23 @@
 <html lang="en">
 
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="assets/chessground.css" async>
+  <link rel="stylesheet" href="assets/theme.css" async>
+  <link rel="stylesheet" href="assets/examples.css">
   <meta charset="utf-8">
-  <title>test</title>
-  <meta name="description" content="test">
+  <title>Perturb-o-tron</title>
+  <meta name="description" content="analysis stockfish">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <script defer>
+  <div id="chessground-examples"></div>
+  <script src="dist/main.js"></script>
+  <script>
+    /* global bundle */
+
     var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
     console.log("wasmSupported:" + wasmSupported);
-    var stockfish = new Worker(wasmSupported ? 'stockfish.wasm.js' : 'stockfish.js');
+    var stockfish = new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
+    var StockfishQueue = new bundle.StockfishQueue(stockfish);
 
     var last = '';
 
@@ -32,7 +41,7 @@
         taskComplete();
       }
     }
-    
+
     function scoreCp(fen, v) {
       if ((v < 250) && (v > -250)) {
         return "drawn";

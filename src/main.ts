@@ -1,4 +1,1 @@
-export { StockfishQueue } from './stockfishqueue'
-
-
-
+export { StockfishQueue } from "./stockfishqueue"
