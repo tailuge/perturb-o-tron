@@ -36,8 +36,8 @@ export class StockfishQueue {
         if (this.workItems.length > 0) {
           this.processNextWorkItem()
         }
-      return
       }
+      return
     }
 
     var score = e.score(this.workItems[0].fen)
