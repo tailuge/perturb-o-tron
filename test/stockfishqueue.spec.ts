@@ -66,4 +66,28 @@ describe("StockfishQueue", () => {
     expect(onComplete.firstCall.args[0]).to.equal("whiteWin")
     done()
   })
+
+  it("Completion of first item triggers next", done => {
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let eventListener = addEventListener.firstCall.args[1]
+    let onComplete1 = sinon.spy(({}) => {})
+    let onComplete2 = sinon.spy(({}) => {})
+
+    stockfishQueue.enqueue("7k/8/8/8/8/8/R7/R6K w - -", onComplete1)
+    stockfishQueue.enqueue("7k/8/8/8/8/8/R7/R6K b - -", onComplete2)
+
+    eventListener({ data: "a score cp 4750 n" })
+    eventListener({ data: "bestmove h8g7 ponder h1g2" })
+
+    sinon.assert.calledOnce(onComplete1)
+    expect(onComplete1.firstCall.args[0]).to.equal("whiteWin")
+    expect(postMessage.callCount).to.equal(5)
+
+    eventListener({ data: "a score mate 2 n" })
+    eventListener({ data: "bestmove h8g7 ponder h1g2" })
+
+    expect(onComplete2.firstCall.args[0]).to.equal("blackWin")
+
+    done()
+  })
 })

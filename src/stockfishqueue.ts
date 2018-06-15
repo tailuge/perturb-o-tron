@@ -30,12 +30,10 @@ export class StockfishQueue {
     const e = new Event(event)
     if (e.isComplete()) {
       this.log("complete")
-      let completeItem = this.workItems.pop()
-      if (completeItem) {
-        completeItem.onComplete(completeItem.score)
-        if (this.workItems.length > 0) {
-          this.processNextWorkItem()
-        }
+      let completeItem = this.workItems.shift()
+      completeItem && completeItem.onComplete(completeItem.score)
+      if (this.workItems.length > 0) {
+        this.processNextWorkItem()
       }
       return
     }
@@ -43,8 +41,10 @@ export class StockfishQueue {
     var score = e.score(this.workItems[0].fen)
     if (score != "noScore") {
       this.workItems[0].score = score
-      this.log(event + " parsed as " + score)
+      this.log("parsed as " + score)
+      return
     }
+    this.log("ignored")
   }
 
   enqueue(fen, onComplete) {
