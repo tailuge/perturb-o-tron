@@ -13,86 +13,18 @@
   <div id="chessground-examples"></div>
   <script src="dist/main.js"></script>
   <script>
-    /* global bundle */
+    /* global bundle, WebAssembly */
 
     var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
     console.log("wasmSupported:" + wasmSupported);
     var stockfish = new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
-    var StockfishQueue = new bundle.StockfishQueue(stockfish,console.log);
+    var stockfishQueue = new bundle.StockfishQueue(stockfish, console.log);
 
-    var last = '';
 
-    var matePattern = /score mate ([^ ]*) .*/;
-    var centipawnPattern = /score cp ([^ ]*) .*/;
-    var completePattern = /bestmove.*/;
 
-    stockfish.addEventListener('message', e => sfEventHandler(e));
+    var work = ['7k/8/8/8/8/8/R7/R6K w - -', '1r5k/8/8/8/8/8/8/7K b - -', '8/5p2/R3p1kp/P2p2p1/1Pr5/5PNK/2r5/8 b - - 0 48'];
 
-    function sfEventHandler(e) {
-      console.log(e.data);
-
-      if (matePattern.exec(e.data)) {
-        last = scoreMate(work[workIndex].fen, matePattern.exec(e.data)[1]);
-      }
-      if (centipawnPattern.exec(e.data)) {
-        last = scoreCp(work[workIndex].fen, centipawnPattern.exec(e.data)[1]);
-      }
-      if (completePattern.exec(e.data)) {
-        taskComplete();
-      }
-    }
-
-    function scoreCp(fen, v) {
-      if ((v < 250) && (v > -250)) {
-        return "drawn";
-      }
-
-      if (fen.includes('w')) {
-        return v > 0 ? "whiteWin" : "blackWin";
-      }
-      else {
-        return v < 0 ? "whiteWin" : "blackWin";
-      }
-    }
-
-    function scoreMate(fen, v) {
-      if (fen.includes('w')) {
-        return v.includes('-') ? "blackWin" : "whiteWin";
-      }
-      else {
-        return v.includes('-') ? "whiteWin" : "blackWin";
-      }
-    }
-
-    function taskComplete() {
-      console.log("taskComplete");
-      work[workIndex].score = last;
-      workIndex++;
-      if (workIndex === work.length) {
-        console.log("workComplete");
-        console.log(work);
-        return;
-      }
-
-      sendStockfishTask(work[workIndex].fen);
-    }
-
-    function setUpStockfish() {
-      //      stockfish.postMessage('uci');
-      stockfish.postMessage('setoption name MultiPV value 1');
-    }
-
-    function sendStockfishTask(fen) {
-      console.log("sending fen to stockfish for scoring : " + fen);
-      stockfish.postMessage('position fen ' + fen);
-      stockfish.postMessage('go depth 8');
-    }
-
-    var workIndex = 0;
-    var work = [{ fen: '7k/8/8/8/8/8/R7/R6K w - -' }, { fen: '1r5k/8/8/8/8/8/8/7K b - -' }, { fen: '8/5p2/R3p1kp/P2p2p1/1Pr5/5PNK/2r5/8 b - - 0 48' }];
-
-    setUpStockfish();
-    sendStockfishTask(work[0].fen);
+    work.forEach(w => stockfishQueue.enqueue(w, x => console.log(w + "onComplete:" + x)));
   </script>
 </head>
 

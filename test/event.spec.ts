@@ -41,8 +41,6 @@ describe("Event", () => {
     expect(new Event("status message").score("b")).to.equal("noScore")
     done()
   })
-
-  
 })
 
 //info depth 6 seldepth 2 multipv 1 score mate 1 n
