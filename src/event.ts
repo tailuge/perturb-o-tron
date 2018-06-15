@@ -22,7 +22,7 @@ export class Event {
     if (parsedScore) {
       return this.scoreCp(fen, parsedScore[1])
     }
-    return 0
+    return "noScore"
   }
 
   private scoreCp(fen, v) {

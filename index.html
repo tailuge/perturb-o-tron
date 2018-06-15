@@ -18,7 +18,7 @@
     var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
     console.log("wasmSupported:" + wasmSupported);
     var stockfish = new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
-    var StockfishQueue = new bundle.StockfishQueue(stockfish);
+    var StockfishQueue = new bundle.StockfishQueue(stockfish,console.log);
 
     var last = '';
 
@@ -89,7 +89,7 @@
     }
 
     var workIndex = 0;
-    var work = [{ fen: '7k/8/8/8/8/8/R7/R6K w - -' }, { fen: '1r5k/8/8/8/8/8/8/7K b - -' }];
+    var work = [{ fen: '7k/8/8/8/8/8/R7/R6K w - -' }, { fen: '1r5k/8/8/8/8/8/8/7K b - -' }, { fen: '8/5p2/R3p1kp/P2p2p1/1Pr5/5PNK/2r5/8 b - - 0 48' }];
 
     setUpStockfish();
     sendStockfishTask(work[0].fen);
