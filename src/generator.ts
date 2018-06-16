@@ -44,9 +44,20 @@ export class Generator {
       const fen = board.fen()
       const in_check = board.in_check()
       board.remove(targetSquare)
-      if (!in_check) {
+      if (!in_check && this.validForOtherSide(fen)) {
         return fen
       }
     }
+  }
+
+  private validForOtherSide(fen) {
+    const otherSide = new Chess(this.fenForOtherSide(fen))
+    return !otherSide.in_check()
+  }
+  
+  private fenForOtherSide(fen) {
+    return fen.includes(" w ")
+      ? fen.replace(/ w .*/, " b - - 0 1")
+      : fen.replace(/ b .*/, " w - - 0 2")
   }
 }

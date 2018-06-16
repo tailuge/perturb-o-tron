@@ -19,4 +19,11 @@ describe("Generator", () => {
     expect(generator.perturb("e3").length).to.equal(57)
     done()
   })
+
+  it("Positions restricted for pinned piece", done => {
+    let generator = new Generator("7k/8/7r/8/8/7R/8/7K w - - 0 1")
+    expect(generator.perturb("h3").length).to.equal(4)
+    expect(generator.perturb("h6").length).to.equal(4)
+    done()
+  })
 })
