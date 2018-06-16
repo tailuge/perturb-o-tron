@@ -26,7 +26,6 @@ export class StockfishQueue {
   }
 
   private sfEventHandler(event) {
-    this.log(event)
     const e = new Event(event)
 
     if (this.workItems.length == 0) {
@@ -34,9 +33,9 @@ export class StockfishQueue {
     }
 
     if (e.isComplete()) {
-      this.log("complete")
       let completeItem = this.workItems.shift()
-      completeItem && completeItem.onComplete(completeItem.position)
+      completeItem!.position.bestMove = e.bestMove()
+      completeItem!.onComplete(completeItem!.position)
       if (this.workItems.length > 0) {
         this.processNextWorkItem()
       }
@@ -46,10 +45,10 @@ export class StockfishQueue {
     var score = e.score(this.workItems[0].position.fen)
     if (score != "noScore") {
       this.workItems[0].position.score = score
-      this.log("parsed as " + score)
+
       return
     }
-    this.log("ignored")
+    this.log("ignored event: " + event)
   }
 
   enqueue(position: Position, onComplete) {
@@ -61,7 +60,6 @@ export class StockfishQueue {
 
   private processNextWorkItem() {
     let fen = this.workItems[0].position.fen
-    this.log("sending fen to stockfish for scoring : " + fen)
     this.stockfish.postMessage("position fen " + fen)
     this.stockfish.postMessage("go depth 8")
   }

@@ -11,6 +11,12 @@ describe("Event", () => {
     done()
   })
 
+  it("bestMove parses correctly", done => {
+    expect(new Event("bestmove h8g7 ponder h1g2").bestMove()).to.equal("h8g7")
+    expect(new Event("bestmove ").bestMove()).to.equal("")
+    done()
+  })
+
   it("score correctly for white", done => {
     expect(new Event("a score cp 4750 n").score("w")).to.equal("whiteWin")
     expect(new Event("a score cp -4750 n").score("w")).to.equal("blackWin")

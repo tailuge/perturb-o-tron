@@ -14,10 +14,11 @@
 </head>
 
 <body>
-  perterb-o-tron
+  perturb-o-tron
   <section class="blue merida">
     <div id="chessground-examples"></div>
   </section>
+  <button onclick="fromBoard()">go</button>
 </body>
 
 <script defer>
@@ -28,23 +29,45 @@
   var stockfish = new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
   var stockfishQueue = new bundle.StockfishQueue(stockfish, console.log);
 
-  var fen = '7k/8/7r/8/8/7R/8/7K w - - 0 1';
-  var generator = new bundle.Generator(fen);
-  var positions = generator.perturb('h3');
+  var shapes = [];
 
-  var shapes = []; //positions.map(p => ({ orig: p.targetSquare, brush: 'green' }));
 
-  var config = {
-    fen: fen
-  };
+  var fen = '3k4/8/1p6/8/8/4P3/8/3K4 w - - 0 1';
+  var chessground = bundle.Chessground(document.getElementById('chessground-examples'), { fen: fen });
+  //  perturb(fen, 'd1');
 
-  var chessground = bundle.Chessground(document.getElementById('chessground-examples'), config);
+  function fromBoard() {
+    var fen = chessground.getFen() + " w - - 0 1";
+    console.log("fromBoard:" + fen);
+    perturb(fen, 'd1');
+  }
 
-  positions.forEach(p => stockfishQueue.enqueue(p, annotate));
+  function perturb(fen, perturbedSquare) {
+    clear();
+    var generator = new bundle.Generator(fen);
+    var positions = generator.perturb(perturbedSquare);
+    positions.forEach(p => stockfishQueue.enqueue(p, annotate));
+  }
 
+  function clear() {
+    shapes = [];
+    redrawShapes();
+  }
 
   function annotate(position) {
     shapes.push({ orig: position.targetSquare, brush: brushScore(position.score) });
+    /*
+    let bestMove = position.bestMove;
+    shapes.push({
+      orig: bestMove.substring(0, 2),
+      dest: bestMove.substring(2, 4),
+      brush: brushScore(position.score)
+    });
+    */
+    redrawShapes();
+  }
+
+  function redrawShapes() {
     chessground.set({
       drawable: {
         enabled: false,
@@ -59,7 +82,7 @@
         return 'green';
       case 'blackWin':
         return 'red';
-      case 'draw':
+      case 'drawn':
         return 'yellow';
       default:
         return 'blue';

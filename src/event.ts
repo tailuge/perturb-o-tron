@@ -3,7 +3,7 @@ export class Event {
 
   private static readonly matePattern = /score mate ([^ ]*) .*/
   private static readonly centipawnPattern = /score cp ([^ ]*) .*/
-  private static readonly completePattern = /bestmove.*/
+  private static readonly completePattern = /bestmove (....)/
 
   constructor(event) {
     this.event = event
@@ -11,6 +11,11 @@ export class Event {
 
   isComplete() {
     return Event.completePattern.exec(this.event) ? true : false
+  }
+
+  bestMove() {
+    var parsed = Event.completePattern.exec(this.event)
+    return parsed ? parsed[1] : ""
   }
 
   score(fen) {
@@ -26,7 +31,7 @@ export class Event {
   }
 
   private scoreCp(fen, v) {
-    if (v < 250 && v > -250) {
+    if (v < 150 && v > -150) {
       return "drawn"
     }
 
