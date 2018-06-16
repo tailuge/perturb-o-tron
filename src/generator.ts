@@ -18,14 +18,20 @@ export class Generator {
     removed.remove(square)
 
     var results: Position[] = []
-    removed.SQUARES.forEach(targetSquare => {
+    this.candidateSquares(piece).forEach(targetSquare => {
       const newFen = this.validFen(piece, targetSquare, removed)
       if (newFen) {
         results.push(new Position(newFen, targetSquare))
       }
     })
-
     return results
+  }
+
+  private candidateSquares(piece) {
+    if (piece.type == "p") {
+      return this.chess.SQUARES.filter(x => /.[2-7]/.test(x))
+    }
+    return this.chess.SQUARES
   }
 
   private validFen(piece, targetSquare, board) {

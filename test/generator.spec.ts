@@ -20,6 +20,12 @@ describe("Generator", () => {
     done()
   })
 
+  it("Pawn cannot be perturbed to end ranks", done => {
+    let generator = new Generator("5k2/8/8/6P1/8/4K3/8/8 w - - 0 1")
+    expect(generator.perturb("g5").length).to.equal(45)
+    done()
+  })
+
   it("Positions restricted for pinned black piece", done => {
     let generator = new Generator("7k/8/7r/8/8/7R/8/7K w - - 0 1")
     expect(generator.perturb("h3").length).to.equal(4)

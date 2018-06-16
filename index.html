@@ -18,7 +18,11 @@
   <section class="blue merida">
     <div id="chessground-examples"></div>
   </section>
-  <button onclick="fromBoard()">go</button>
+  <button onclick="analyse()">go</button>
+  <button onclick="lichessEditor()">Lichess editor</button> FEN:
+  <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" onkeydown="analyse()" /> Perturb:
+  <input type="text" id="perturb" name="perturb" value="b8" onkeydown="analyse()" /> Depth:
+  <input type="text" name="depth" id="depth" value="8" />
 </body>
 
 <script defer>
@@ -32,14 +36,18 @@
   var shapes = [];
 
 
-  var fen = '3k4/8/1p6/8/8/4P3/8/3K4 w - - 0 1';
-  var chessground = bundle.Chessground(document.getElementById('chessground-examples'), { fen: fen });
+  var fen = '1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1';
+  var chessground = bundle.Chessground(document.getElementById('chessground-examples'), {
+    fen: fen,
+    drawable: {
+      enabled: false
+    }
+  });
   //  perturb(fen, 'd1');
 
-  function fromBoard() {
+  function analyse() {
     var fen = chessground.getFen() + " w - - 0 1";
-    console.log("fromBoard:" + fen);
-    perturb(fen, 'd1');
+    perturb(fen, 'b8');
   }
 
   function perturb(fen, perturbedSquare) {
@@ -56,24 +64,19 @@
 
   function annotate(position) {
     shapes.push({ orig: position.targetSquare, brush: brushScore(position.score) });
-    /*
+
     let bestMove = position.bestMove;
     shapes.push({
       orig: bestMove.substring(0, 2),
       dest: bestMove.substring(2, 4),
       brush: brushScore(position.score)
     });
-    */
+
     redrawShapes();
   }
 
   function redrawShapes() {
-    chessground.set({
-      drawable: {
-        enabled: false,
-        shapes: shapes
-      }
-    });
+    chessground.setShapes(shapes)
   }
 
   function brushScore(score) {
