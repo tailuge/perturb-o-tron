@@ -32,19 +32,39 @@
   var generator = new bundle.Generator(fen);
   var positions = generator.perturb('h3');
 
-  var shapes = positions.map(p => ({ orig: p.targetSquare, brush: 'green' }));
+  var shapes = []; //positions.map(p => ({ orig: p.targetSquare, brush: 'green' }));
 
   var config = {
     fen: fen
   };
 
   var chessground = bundle.Chessground(document.getElementById('chessground-examples'), config);
-  chessground.set({
-    drawable: {
-      enabled: false,
-      shapes: shapes
+
+  positions.forEach(p => stockfishQueue.enqueue(p, annotate));
+
+
+  function annotate(position) {
+    shapes.push({ orig: position.targetSquare, brush: brushScore(position.score) });
+    chessground.set({
+      drawable: {
+        enabled: false,
+        shapes: shapes
+      }
+    });
+  }
+
+  function brushScore(score) {
+    switch (score) {
+      case 'whiteWin':
+        return 'green';
+      case 'blackWin':
+        return 'red';
+      case 'draw':
+        return 'yellow';
+      default:
+        return 'blue';
     }
-  });
+  }
 </script>
 
 </html>

@@ -1,3 +1,4 @@
 export { StockfishQueue } from "./stockfishqueue"
-export { Position, Generator } from "./generator"
+export { Generator } from "./generator"
+export { Position } from "./position"
 export { Chessground } from "chessground"

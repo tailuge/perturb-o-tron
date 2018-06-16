@@ -1,16 +1,5 @@
 import { Chess } from "chess.js"
-
-export class Position {
-  public readonly fen
-  public readonly targetSquare
-  public score
-  public bestMove
-
-  constructor(fen, targetSquare) {
-    this.fen = fen
-    this.targetSquare = targetSquare
-  }
-}
+import { Position } from "./position"
 
 export class Generator {
   private readonly chess
@@ -30,7 +19,7 @@ export class Generator {
 
     var results: Position[] = []
     removed.SQUARES.forEach(targetSquare => {
-      const newFen = this.validPlaced(piece, targetSquare, removed)
+      const newFen = this.validFen(piece, targetSquare, removed)
       if (newFen) {
         results.push(new Position(newFen, targetSquare))
       }
@@ -39,7 +28,7 @@ export class Generator {
     return results
   }
 
-  private validPlaced(piece, targetSquare, board) {
+  private validFen(piece, targetSquare, board) {
     if (!board.get(targetSquare)) {
       board.put(piece, targetSquare)
       const fen = board.fen()

@@ -1,20 +1,20 @@
 import { Event } from "./event"
+import { Position } from "./position"
 
 class WorkItem {
-  public readonly fen
+  public readonly position: Position
   public readonly onComplete
-  public score
 
-  constructor(fen, onComplete) {
-    this.fen = fen
+  constructor(position, onComplete) {
+    this.position = position
     this.onComplete = onComplete
   }
 }
 
 export class StockfishQueue {
   private readonly stockfish
-  private log
-  private workItems: WorkItem[] = []
+  private readonly log
+  private readonly workItems: WorkItem[] = []
 
   constructor(stockfish, log) {
     this.stockfish = stockfish
@@ -36,31 +36,31 @@ export class StockfishQueue {
     if (e.isComplete()) {
       this.log("complete")
       let completeItem = this.workItems.shift()
-      completeItem && completeItem.onComplete(completeItem.score)
+      completeItem && completeItem.onComplete(completeItem.position)
       if (this.workItems.length > 0) {
         this.processNextWorkItem()
       }
       return
     }
 
-    var score = e.score(this.workItems[0].fen)
+    var score = e.score(this.workItems[0].position.fen)
     if (score != "noScore") {
-      this.workItems[0].score = score
+      this.workItems[0].position.score = score
       this.log("parsed as " + score)
       return
     }
     this.log("ignored")
   }
 
-  enqueue(fen, onComplete) {
-    this.workItems.push(new WorkItem(fen, onComplete))
+  enqueue(position: Position, onComplete) {
+    this.workItems.push(new WorkItem(position, onComplete))
     if (this.workItems.length == 1) {
       this.processNextWorkItem()
     }
   }
 
   private processNextWorkItem() {
-    let fen = this.workItems[0].fen
+    let fen = this.workItems[0].position.fen
     this.log("sending fen to stockfish for scoring : " + fen)
     this.stockfish.postMessage("position fen " + fen)
     this.stockfish.postMessage("go depth 8")
