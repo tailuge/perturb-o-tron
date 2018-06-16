@@ -1,9 +1,10 @@
 import { Chess } from "chess.js"
 
-class Position {
+export class Position {
   public readonly fen
   public readonly targetSquare
   public score
+  public bestMove
 
   constructor(fen, targetSquare) {
     this.fen = fen
@@ -43,8 +44,9 @@ export class Generator {
       board.put(piece, targetSquare)
       const fen = board.fen()
       const in_check = board.in_check()
+      const in_stalemate = board.in_stalemate()
       board.remove(targetSquare)
-      if (!in_check && this.validForOtherSide(fen)) {
+      if (!in_check && !in_stalemate && this.validForOtherSide(fen)) {
         return fen
       }
     }
@@ -54,7 +56,7 @@ export class Generator {
     const otherSide = new Chess(this.fenForOtherSide(fen))
     return !otherSide.in_check()
   }
-  
+
   private fenForOtherSide(fen) {
     return fen.includes(" w ")
       ? fen.replace(/ w .*/, " b - - 0 1")

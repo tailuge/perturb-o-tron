@@ -28,6 +28,11 @@ export class StockfishQueue {
   private sfEventHandler(event) {
     this.log(event)
     const e = new Event(event)
+
+    if (this.workItems.length == 0) {
+      return
+    }
+
     if (e.isComplete()) {
       this.log("complete")
       let completeItem = this.workItems.shift()

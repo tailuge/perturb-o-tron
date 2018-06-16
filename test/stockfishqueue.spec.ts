@@ -25,8 +25,10 @@ describe("StockfishQueue", () => {
 
   it("Initialise ok", done => {
     new StockfishQueue(stockfishInterface, nop)
+    let eventListener = addEventListener.firstCall.args[1]
     sinon.assert.calledOnce(postMessage)
     sinon.assert.calledOnce(addEventListener)
+    eventListener("initialised")
     done()
   })
 
