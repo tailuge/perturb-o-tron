@@ -1,24 +1,24 @@
 export class Event {
-  private readonly event
+  private readonly event: string
 
-  private readonly matePattern = /score mate ([^ ]*) .*/
-  private readonly centipawnPattern = /score cp ([^ ]*) .*/
-  private readonly completePattern = /bestmove.*/
+  private static readonly matePattern = /score mate ([^ ]*) .*/
+  private static readonly centipawnPattern = /score cp ([^ ]*) .*/
+  private static readonly completePattern = /bestmove.*/
 
   constructor(event) {
     this.event = event
   }
 
   isComplete() {
-    return this.completePattern.exec(this.event) ? true : false
+    return Event.completePattern.exec(this.event) ? true : false
   }
 
   score(fen) {
-    var parsedScore = this.matePattern.exec(this.event)
+    var parsedScore = Event.matePattern.exec(this.event)
     if (parsedScore) {
       return this.scoreMate(fen, parsedScore[1])
     }
-    parsedScore = this.centipawnPattern.exec(this.event)
+    parsedScore = Event.centipawnPattern.exec(this.event)
     if (parsedScore) {
       return this.scoreCp(fen, parsedScore[1])
     }
