@@ -28,69 +28,31 @@
 <script defer>
   /* global bundle, WebAssembly */
 
-  var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
-  console.log("wasmSupported:" + wasmSupported);
-  var stockfish = new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
-  var stockfishQueue = new bundle.StockfishQueue(stockfish, console.log);
-
-  var shapes = [];
-
-
-  var fen = '1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1';
+  var fen = 'RK6/1P6/8/8/8/3p4/2rk4/8 w - - 0 1';
   var chessground = bundle.Chessground(document.getElementById('chessground-examples'), {
     fen: fen,
     drawable: {
       enabled: false
     }
   });
-  //  perturb(fen, 'd1');
+
+  var analysisBoard = new bundle.AnalysisBoard(loadStockfish(), chessground);
 
   function analyse() {
     var fen = chessground.getFen() + " w - - 0 1";
-    perturb(fen, 'b8');
+    analysisBoard.perturb(fen, 'b8');
   }
 
-  function perturb(fen, perturbedSquare) {
-    clear();
-    var generator = new bundle.Generator(fen);
-    var positions = generator.perturb(perturbedSquare);
-    positions.forEach(p => stockfishQueue.enqueue(p, annotate));
+  function lichessEditor() {
+    window.open("https://lichess.org/editor/" + chessground.getFen(), '_blank');
   }
 
-  function clear() {
-    shapes = [];
-    redrawShapes();
+  function loadStockfish() {
+    var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+    console.log("wasmSupported:" + wasmSupported);
+    return new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
   }
-
-  function annotate(position) {
-    shapes.push({ orig: position.targetSquare, brush: brushScore(position.score) });
-
-    let bestMove = position.bestMove;
-    shapes.push({
-      orig: bestMove.substring(0, 2),
-      dest: bestMove.substring(2, 4),
-      brush: brushScore(position.score)
-    });
-
-    redrawShapes();
-  }
-
-  function redrawShapes() {
-    chessground.setShapes(shapes)
-  }
-
-  function brushScore(score) {
-    switch (score) {
-      case 'whiteWin':
-        return 'green';
-      case 'blackWin':
-        return 'red';
-      case 'drawn':
-        return 'yellow';
-      default:
-        return 'blue';
-    }
-  }
+  
 </script>
 
 </html>
