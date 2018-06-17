@@ -18,34 +18,26 @@ export class Event {
     return parsed ? parsed[1] : ""
   }
 
-  score(fen) {
+  score() {
     var parsedScore = Event.matePattern.exec(this.event)
     if (parsedScore) {
-      return this.scoreMate(fen, parsedScore[1])
+      return this.scoreMate(parsedScore[1])
     }
     parsedScore = Event.centipawnPattern.exec(this.event)
     if (parsedScore) {
-      return this.scoreCp(fen, parsedScore[1])
+      return this.scoreCp(parsedScore[1])
     }
     return "noScore"
   }
 
-  private scoreCp(fen, v) {
+  private scoreCp(v) {
     if (v < 150 && v > -150) {
       return "drawn"
     }
-
-    if (fen.includes("w")) {
-      return v > 0 ? "whiteWin" : "blackWin"
-    } else {
-      return v < 0 ? "whiteWin" : "blackWin"
-    }
+    return v > 0 ? "win" : "lose"
   }
 
-  private scoreMate(fen, v) {
-    if (fen.includes("w")) {
-      return v.includes("-") ? "blackWin" : "whiteWin"
-    }
-    return v.includes("-") ? "whiteWin" : "blackWin"
+  private scoreMate(v) {
+    return v > 0 ? "win" : "lose"
   }
 }

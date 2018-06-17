@@ -73,7 +73,7 @@ describe("StockfishQueue", () => {
     eventListener({ data: "a score cp 4750 n" })
     eventListener({ data: "bestmove h8g7 ponder h1g2" })
     sinon.assert.calledOnce(onComplete)
-    expect(onComplete.firstCall.args[0].score).to.equal("whiteWin")
+    expect(onComplete.firstCall.args[0].score).to.equal("win")
     done()
   })
 
@@ -90,13 +90,13 @@ describe("StockfishQueue", () => {
     eventListener({ data: "bestmove h8g7 ponder h1g2" })
 
     sinon.assert.calledOnce(onComplete1)
-    expect(onComplete1.firstCall.args[0].score).to.equal("whiteWin")
+    expect(onComplete1.firstCall.args[0].score).to.equal("win")
     expect(postMessage.callCount).to.equal(5)
 
-    eventListener({ data: "a score mate 2 n" })
+    eventListener({ data: "a score mate -2 n" })
     eventListener({ data: "bestmove h8g7 ponder h1g2" })
 
-    expect(onComplete2.firstCall.args[0].score).to.equal("blackWin")
+    expect(onComplete2.firstCall.args[0].score).to.equal("lose")
 
     done()
   })

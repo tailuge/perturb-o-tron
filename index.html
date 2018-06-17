@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
+  <title>Perturb-o-tron</title>
+  <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="description" content="analysis stockfish">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <link rel="stylesheet" href="assets/chessground.css" async>
   <link rel="stylesheet" href="assets/theme.css" async>
   <link rel="stylesheet" href="assets/examples.css">
-  <meta charset="utf-8">
-  <title>Perturb-o-tron</title>
-  <meta name="description" content="analysis stockfish">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <script src="dist/main.js"></script>
 </head>
 
@@ -18,11 +18,13 @@
   <section class="blue merida">
     <div id="chessground-examples"></div>
   </section>
+  FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
+  <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" /> Depth:
+  <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
+  <input type="radio" name="colour" id="colour" value="white" checked> White
+  <input type="radio" name="colour" id="colourOther" value="black"> Black
   <button onclick="analyse()">go</button>
-  <button onclick="lichessEditor()">Lichess editor</button> FEN:
-  <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
-  <input type="text" id="perturb" name="perturb" value="b8" /> Depth:
-  <input type="text" name="depth" id="depth" value="8" />
+  <button onclick="lichessEditor()">Lichess editor</button>
 </body>
 
 <script defer>

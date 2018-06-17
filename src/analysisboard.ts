@@ -1,6 +1,5 @@
 import { StockfishQueue } from "./stockfishqueue"
 import { Generator } from "./generator"
-//import { Chessground } from "chessground"
 
 export class AnalysisBoard {
   private readonly stockfishQueue
@@ -15,11 +14,11 @@ export class AnalysisBoard {
   perturb(fen, perturbedSquare) {
     this.clear()
     this.chessground.set({
-    fen: fen,
-    drawable: {
-      enabled: false
-    }
-  })
+      fen: fen,
+      drawable: {
+        enabled: false
+      }
+    })
     new Generator(fen).perturb(perturbedSquare).forEach(p => {
       this.stockfishQueue.enqueue(p, x => {
         this.annotate(x)
@@ -35,7 +34,9 @@ export class AnalysisBoard {
   private annotate(position) {
     this.shapes.push(this.circle(position))
     this.shapes.push(this.piece(position))
-    this.shapes.push(this.line(position))
+    if (position.score == "win") {
+      this.shapes.push(this.line(position))
+    }
     this.chessground.setShapes(this.shapes)
   }
 
@@ -62,16 +63,16 @@ export class AnalysisBoard {
       piece: {
         color: "white",
         role: "king",
-        scale: 0.6
+        scale: 0.3
       }
     }
   }
 
   private brush(score) {
     switch (score) {
-      case "whiteWin":
+      case "win":
         return "green"
-      case "blackWin":
+      case "lose":
         return "red"
       case "drawn":
         return "yellow"

@@ -17,36 +17,21 @@ describe("Event", () => {
     done()
   })
 
-  it("score correctly for white", done => {
-    expect(new Event("a score cp 4750 n").score("w")).to.equal("whiteWin")
-    expect(new Event("a score cp -4750 n").score("w")).to.equal("blackWin")
-    expect(new Event("a score cp -50 n").score("w")).to.equal("drawn")
+  it("score eval correctly", done => {
+    expect(new Event("a score cp 4750 n").score()).to.equal("win")
+    expect(new Event("a score cp -4750 n").score()).to.equal("lose")
+    expect(new Event("a score cp -50 n").score()).to.equal("drawn")
     done()
   })
 
-  it("score correctly for black", done => {
-    expect(new Event("a score cp 4750 n").score("b")).to.equal("blackWin")
-    expect(new Event("a score cp -4750 n").score("b")).to.equal("whiteWin")
-    expect(new Event("a score cp -50 n").score("b")).to.equal("drawn")
-    done()
-  })
-
-  it("score mate correctly for white", done => {
-    expect(new Event("a score mate 1 n").score("w")).to.equal("whiteWin")
-    expect(new Event("a score mate -2 n").score("w")).to.equal("blackWin")
-    done()
-  })
-
-  it("score mate correctly for black", done => {
-    expect(new Event("a score mate 1 n").score("b")).to.equal("blackWin")
-    expect(new Event("a score mate -2 n").score("b")).to.equal("whiteWin")
+  it("score mate correctly", done => {
+    expect(new Event("a score mate 1 n").score()).to.equal("win")
+    expect(new Event("a score mate -2 n").score()).to.equal("lose")
     done()
   })
 
   it("score ignores other messages", done => {
-    expect(new Event("status message").score("b")).to.equal("noScore")
+    expect(new Event("status message").score()).to.equal("noScore")
     done()
   })
 })
-
-//info depth 6 seldepth 2 multipv 1 score mate 1 n

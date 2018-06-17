@@ -42,7 +42,7 @@ export class StockfishQueue {
       return
     }
 
-    var score = e.score(this.workItems[0].position.fen)
+    var score = e.score()
     if (score != "noScore") {
       this.workItems[0].position.score = score
 
