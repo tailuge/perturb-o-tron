@@ -20,15 +20,15 @@
   </section>
   <button onclick="analyse()">go</button>
   <button onclick="lichessEditor()">Lichess editor</button> FEN:
-  <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" onkeydown="analyse()" /> Perturb:
-  <input type="text" id="perturb" name="perturb" value="b8" onkeydown="analyse()" /> Depth:
+  <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
+  <input type="text" id="perturb" name="perturb" value="b8" /> Depth:
   <input type="text" name="depth" id="depth" value="8" />
 </body>
 
 <script defer>
   /* global bundle, WebAssembly */
 
-  var fen = 'RK6/1P6/8/8/8/3p4/2rk4/8 w - - 0 1';
+  var fen = document.getElementById('fen').value;
   var chessground = bundle.Chessground(document.getElementById('chessground-examples'), {
     fen: fen,
     drawable: {
@@ -40,11 +40,21 @@
 
   function analyse() {
     var fen = chessground.getFen() + " w - - 0 1";
-    analysisBoard.perturb(fen, 'b8');
+    var perturb = document.getElementById('perturb').value;
+    document.getElementById('fen').value = fen;
+    analysisBoard.perturb(fen, perturb);
   }
 
   function lichessEditor() {
     window.open("https://lichess.org/editor/" + chessground.getFen(), '_blank');
+  }
+
+  function onPressEnter(event, action) {
+    (event.keyCode == 13) && action();
+  }
+
+  function fenInputToBoard() {
+    chessground.set({ fen: document.getElementById('fen').value });
   }
 
   function loadStockfish() {
@@ -52,7 +62,6 @@
     console.log("wasmSupported:" + wasmSupported);
     return new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
   }
-  
 </script>
 
 </html>
