@@ -4,7 +4,7 @@ import { Position } from "./position"
 class WorkItem {
   public readonly position: Position
   public readonly onComplete
-
+  
   constructor(position, onComplete) {
     this.position = position
     this.onComplete = onComplete
@@ -15,10 +15,12 @@ export class StockfishQueue {
   private readonly stockfish
   private readonly log
   private readonly workItems: WorkItem[] = []
+  public depth: number
 
   constructor(stockfish, log) {
     this.stockfish = stockfish
     this.log = log
+    this.depth = 8
     this.stockfish.postMessage("setoption name MultiPV value 1")
     this.stockfish.addEventListener("message", event => {
       this.sfEventHandler(event.data)
@@ -61,6 +63,6 @@ export class StockfishQueue {
   private processNextWorkItem() {
     let fen = this.workItems[0].position.fen
     this.stockfish.postMessage("position fen " + fen)
-    this.stockfish.postMessage("go depth 8")
+    this.stockfish.postMessage("go depth " + this.depth)
   }
 }
