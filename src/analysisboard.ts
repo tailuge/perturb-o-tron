@@ -6,7 +6,7 @@ export class AnalysisBoard {
   private readonly stockfishQueue
   private readonly chessground
   private shapes = new Shapes()
-  
+
   constructor(stockfish, chessground) {
     this.stockfishQueue = new StockfishQueue(stockfish, console.log)
     this.chessground = chessground
@@ -35,7 +35,7 @@ export class AnalysisBoard {
   depth(depth) {
     this.stockfishQueue.depth = depth
   }
-  
+
   private annotate(position) {
     this.shapes.annotate(position)
     this.chessground.setShapes(this.shapes.shapes)

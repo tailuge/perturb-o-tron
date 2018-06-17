@@ -1,11 +1,10 @@
 export class Shapes {
-
   shapes: any[] = []
 
   clear() {
     this.shapes = []
   }
-  
+
   annotate(position) {
     this.shapes.push(this.circle(position))
     this.shapes.push(this.piece(position))

@@ -42,8 +42,9 @@
 
   function analyse() {
     var fen = chessground.getFen() + " w - - 0 1";
-    var perturb = document.getElementById('perturb').value;
-    document.getElementById('fen').value = fen;
+    var perturb = elt('perturb').value;
+    elt('fen').value = fen;
+    analysisBoard.depth(elt('depth').value);
     analysisBoard.perturb(fen, perturb);
   }
 
@@ -56,7 +57,12 @@
   }
 
   function fenInputToBoard() {
-    chessground.set({ fen: document.getElementById('fen').value });
+    chessground.set({ fen: elt('fen').value });
+    // set side to move
+  }
+
+  function elt(e) {
+    return document.getElementById(e)
   }
 
   function loadStockfish() {
