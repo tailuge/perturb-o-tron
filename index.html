@@ -49,6 +49,7 @@
     var perturb = elt('perturb').value;
     elt('fen').value = fen;
     analysisBoard.depth(elt('depth').value);
+    setStatus("Perturbing " + square);
     analysisBoard.perturb(fen, perturb);
   }
 
@@ -63,10 +64,7 @@
   function fenInputToBoard() {
     var fen = elt('fen').value;
     chessground.set({
-      fen: fen,
-      movable: {
-        //        color: fen.includes('w') ? 'white':'black'
-      }
+      fen: fen
     });
   }
 

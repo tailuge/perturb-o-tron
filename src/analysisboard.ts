@@ -23,7 +23,7 @@ export class AnalysisBoard {
         enabled: false
       },
       highlight: {
-        lastMove: false,
+        lastMove: true,
         check: false
       }
     }
@@ -56,14 +56,8 @@ export class AnalysisBoard {
   }
 
   selectPerturbedPiece(square) {
-    console.log(square)
-    this.chessground.setShapes([
-      {
-        orig: square,
-        brush: "blue"
-      }
-    ])
     this.chessground.set({
+      lastMove: [square],
       movable: {
         color: "both"
       },
