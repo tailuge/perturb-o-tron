@@ -18,12 +18,15 @@
   <section class="blue merida">
     <div id="chessground-examples"></div>
   </section>
-  FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
+  <br/>
+  <div id="status">Status</div>
+  <br/> FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
   <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" /> Depth:
   <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
-  <input type="radio" name="colour" id="colour" value="white" checked> White
-  <input type="radio" name="colour" id="colourOther" value="black"> Black
-  <button onclick="analyse()">go</button>
+  <br/>
+  <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White
+  <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
+  <button onclick="analyse()">Perturb</button>
   <button onclick="lichessEditor()">Lichess editor</button>
 </body>
 
@@ -31,17 +34,18 @@
   /* global bundle, WebAssembly */
 
   var fen = document.getElementById('fen').value;
-  var chessground = bundle.Chessground(document.getElementById('chessground-examples'), {
-    fen: fen,
-    drawable: {
-      enabled: false
-    }
-  });
+  var chessground = bundle.Chessground(elt('chessground-examples'), bundle.AnalysisBoard.config(fen));
 
   var analysisBoard = new bundle.AnalysisBoard(loadStockfish(), chessground);
 
   function analyse() {
-    var fen = chessground.getFen() + " w - - 0 1";
+    setStatus("Select piece to perturb");
+    analysisBoard.selectMode(onSelected);
+  }
+
+  function onSelected(square) {
+    elt('perturb').value = square;
+    var fen = chessground.getFen() + elt('fen').value.replace(/[^ ]*/, '');
     var perturb = elt('perturb').value;
     elt('fen').value = fen;
     analysisBoard.depth(elt('depth').value);
@@ -57,12 +61,27 @@
   }
 
   function fenInputToBoard() {
-    chessground.set({ fen: elt('fen').value });
-    // set side to move
+    var fen = elt('fen').value;
+    chessground.set({
+      fen: fen,
+      movable: {
+        //        color: fen.includes('w') ? 'white':'black'
+      }
+    });
+  }
+
+  function switchColourToPlay() {
+    var colour = document.getElementById('colour').checked ? 'w' : 'b';
+    elt('fen').value = elt('fen').value.replace(/[wb]/, colour);
+    fenInputToBoard();
+  }
+
+  function setStatus(text) {
+    elt('status').innerHTML = text;
   }
 
   function elt(e) {
-    return document.getElementById(e)
+    return document.getElementById(e);
   }
 
   function loadStockfish() {
