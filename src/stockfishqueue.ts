@@ -29,7 +29,6 @@ export class StockfishQueue {
 
   private sfEventHandler(event) {
     const e = new Event(event)
-
     if (this.workItems.length == 0) {
       return
     }
@@ -48,7 +47,7 @@ export class StockfishQueue {
     var score = e.score()
     if (score != "noScore") {
       this.workItems[0].position.score = score
-
+      this.workItems[0].position.pv = e.pv()
       return
     }
     this.log("ignored event: " + event)

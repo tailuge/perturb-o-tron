@@ -28,9 +28,19 @@ input {
   color: black;
 }
 
+.explorer {
+  width: 30px;
+  height: 30px;
+}
+
 .inputs {
   background-color: #222;
   border-radius: 3px;
   padding: 2px;
   margin: 2px 2px;
+}
+
+.all {
+  display: grid;
+  grid-template-columns: 50% 50%;
 }

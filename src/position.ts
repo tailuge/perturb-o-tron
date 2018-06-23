@@ -3,6 +3,7 @@ export class Position {
   public readonly targetSquare
   public score
   public bestMove
+  public pv
 
   constructor(fen, targetSquare) {
     this.fen = fen

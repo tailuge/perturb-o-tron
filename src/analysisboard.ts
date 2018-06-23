@@ -1,13 +1,15 @@
 import { StockfishQueue } from "./stockfishqueue"
 import { Generator } from "./generator"
 import { Shapes } from "./shapes"
+import { Position } from "./position"
+import { Chess } from "chess.js"
 
 export class AnalysisBoard {
   private readonly stockfishQueue
   private readonly chessground
   private shapes = new Shapes()
   private onSelect
-
+  private positionMap: { [key: string]: Position } = {}
   constructor(stockfish, chessground) {
     this.stockfishQueue = new StockfishQueue(stockfish, console.log)
     this.chessground = chessground
@@ -31,12 +33,33 @@ export class AnalysisBoard {
 
   perturb(fen, perturbedSquare) {
     this.clear()
+    this.positionMap = {}
     this.chessground.set(AnalysisBoard.config(fen))
     new Generator(fen).perturb(perturbedSquare).forEach(p => {
+      this.positionMap[p.targetSquare] = p
       this.stockfishQueue.enqueue(p, x => {
         this.annotate(x)
       })
     })
+  }
+
+  views() {
+    var squares = new Chess().SQUARES
+    var result = ""
+    squares.forEach(square => {
+      result += '<button class="explorer" type="button" '
+      let p = this.positionMap[square]
+
+      if (p) {
+        result += `onClick="showFen('${p.fen}')">${p.targetSquare}</button>`
+      } else {
+        result += "> - </button>"
+      }
+      if (square.includes("h")) {
+        result += "<br/>"
+      }
+    })
+    return result
   }
 
   depth(depth) {
@@ -70,6 +93,13 @@ export class AnalysisBoard {
 
   private clear() {
     this.shapes.clear()
+    this.chessground.setShapes(this.shapes.shapes)
+  }
+
+  showFenAndShapes(fen) {
+    this.chessground.set({
+      fen: fen
+    })
     this.chessground.setShapes(this.shapes.shapes)
   }
 

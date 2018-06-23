@@ -4,6 +4,7 @@ export class Event {
   private static readonly matePattern = /score mate ([^ ]*) .*/
   private static readonly centipawnPattern = /score cp ([^ ]*) .*/
   private static readonly completePattern = /bestmove (....)/
+  private static readonly pvPattern = / pv (.*)/
 
   constructor(event) {
     this.event = event
@@ -16,6 +17,14 @@ export class Event {
   bestMove() {
     var parsed = Event.completePattern.exec(this.event)
     return parsed ? parsed[1] : ""
+  }
+
+  pv() {
+    var pv = Event.pvPattern.exec(this.event)
+    if (pv) {
+      return pv[1].split(" ")
+    }
+    return []
   }
 
   score() {

@@ -14,20 +14,30 @@
 </head>
 
 <body>
-  perturb-o-tron
-  <section class="blue merida">
-    <div id="chessground-examples"></div>
-  </section>
-  <br/>
-  <div id="status">Status</div>
-  <br/> FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /> Perturb:
-  <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" /> Depth:
-  <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
-  <br/>
-  <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White
-  <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
-  <button onclick="analyse()">Perturb</button>
-  <button onclick="lichessEditor()">Lichess editor</button>
+  <h4>perturb-o-tron</h4>
+  <div class="all">
+    <div class="cell">
+      <section class="blue merida">
+        <div id="chessground-examples"></div>
+      </section>
+      <br/>
+      <div id="status">Status</div>
+      <br/> FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" />
+    </div>
+    <div class="cell">
+      Perturb:
+      <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> Depth:
+      <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
+      <br/>
+      <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White
+      <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
+      <button onclick="analyse()">Perturb</button>
+      <button onclick="lichessEditor()">Lichess editor</button>
+      <br/>
+      <br/>
+      <div id="explorer"></div>
+    </div>
+  </div>
 </body>
 
 <script defer>
@@ -51,6 +61,7 @@
     analysisBoard.depth(elt('depth').value);
     setStatus("Perturbing " + square);
     analysisBoard.perturb(fen, perturb);
+    elt('explorer').innerHTML = analysisBoard.views();
   }
 
   function lichessEditor() {
@@ -62,11 +73,12 @@
   }
 
   function fenInputToBoard() {
-    var fen = bundle.Util.fullFen(elt('fen').value);
+    showFen(bundle.Util.fullFen(elt('fen').value));
+  }
+
+  function showFen(fen) {
     elt('fen').value = fen;
-    chessground.set({
-      fen: fen
-    });
+    analysisBoard.showFenAndShapes(fen)
   }
 
   function switchColourToPlay() {

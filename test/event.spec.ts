@@ -34,4 +34,9 @@ describe("Event", () => {
     expect(new Event("status message").score()).to.equal("noScore")
     done()
   })
+
+  it("extract pv correctly", done => {
+    expect(new Event("other pv a1a2 b5b4").pv()).to.deep.equal(["a1a2", "b5b4"])
+    done()
+  })
 })
