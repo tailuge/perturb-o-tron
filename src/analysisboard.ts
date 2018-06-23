@@ -51,7 +51,8 @@ export class AnalysisBoard {
       let p = this.positionMap[square]
 
       if (p) {
-        result += `onClick="showFen('${p.fen}')">${p.targetSquare}</button>`
+        let sq = p.targetSquare
+        result += `onClick="showFenAndPv('${sq}')">${sq}</button>`
       } else {
         result += "> - </button>"
       }
@@ -96,11 +97,23 @@ export class AnalysisBoard {
     this.chessground.setShapes(this.shapes.shapes)
   }
 
-  showFenAndShapes(fen) {
+  fenForTarget(square) {
+    return this.positionMap[square].fen
+  }
+
+  showFenAndPv(square) {
+    let p = this.positionMap[square]
+    let pv = this.shapes.pv(p)
+    this.chessground.set({
+      fen: p.fen
+    })
+    this.chessground.setShapes([...this.shapes.shapes, ...pv])
+  }
+
+  showFen(fen) {
     this.chessground.set({
       fen: fen
     })
-    this.chessground.setShapes(this.shapes.shapes)
   }
 
   private annotate(position) {

@@ -16,12 +16,15 @@ export class Shapes {
     }
   }
 
-  line(position) {
-    let bestMove = position.bestMove
+  pv(position) {
+    return position.pv.map(this.line)
+  }
+
+  line(move) {
     return {
-      orig: bestMove.substring(0, 2),
-      dest: bestMove.substring(2, 4),
-      brush: this.brush(position.score)
+      orig: move.substring(0, 2),
+      dest: move.substring(2, 4),
+      brush: "blue"
     }
   }
 

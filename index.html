@@ -73,12 +73,18 @@
   }
 
   function fenInputToBoard() {
+    elt('explorer').innerHTML = ''
     showFen(bundle.Util.fullFen(elt('fen').value));
   }
 
   function showFen(fen) {
     elt('fen').value = fen;
-    analysisBoard.showFenAndShapes(fen)
+    analysisBoard.showFen(fen)
+  }
+
+  function showFenAndPv(square) {
+    analysisBoard.showFenAndPv(square);
+    elt('fen').value = bundle.Util.fullFen(analysisBoard.fenForTarget(square))
   }
 
   function switchColourToPlay() {
