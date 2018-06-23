@@ -62,7 +62,8 @@
   }
 
   function fenInputToBoard() {
-    var fen = elt('fen').value;
+    var fen = bundle.Util.fullFen(elt('fen').value);
+    elt('fen').value = fen;
     chessground.set({
       fen: fen
     });

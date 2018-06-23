@@ -7,10 +7,6 @@ export class Shapes {
 
   annotate(position) {
     this.shapes.push(this.circle(position))
-    this.shapes.push(this.piece(position))
-    if (position.score == "win") {
-      this.shapes.push(this.line(position))
-    }
   }
 
   private circle(position) {
@@ -20,7 +16,7 @@ export class Shapes {
     }
   }
 
-  private line(position) {
+  line(position) {
     let bestMove = position.bestMove
     return {
       orig: bestMove.substring(0, 2),
@@ -29,7 +25,7 @@ export class Shapes {
     }
   }
 
-  private piece(position) {
+  piece(position) {
     return {
       orig: position.targetSquare,
       brush: this.brush(position.score),

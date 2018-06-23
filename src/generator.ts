@@ -1,5 +1,6 @@
 import { Chess } from "chess.js"
 import { Position } from "./position"
+import { Util } from "./util"
 
 export class Generator {
   private readonly chess
@@ -48,13 +49,7 @@ export class Generator {
   }
 
   private validForOtherSide(fen) {
-    const otherSide = new Chess(this.fenForOtherSide(fen))
+    const otherSide = new Chess(Util.fenForOtherSide(fen))
     return !otherSide.in_check()
-  }
-
-  private fenForOtherSide(fen) {
-    return fen.includes(" w ")
-      ? fen.replace(/ w .*/, " b - - 0 1")
-      : fen.replace(/ b .*/, " w - - 0 2")
   }
 }
