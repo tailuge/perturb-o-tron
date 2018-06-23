@@ -17,26 +17,36 @@ export class Shapes {
   }
 
   pv(position) {
-    return position.pv.map(this.line)
+    return position.pv.map((m, i) => {
+      return this.line(
+        m,
+        Math.max((16 - i) / 2, 2),
+        i % 2 == 0 ? this.brush(position.score) : this.altBrush(position.score)
+      )
+    })
   }
 
-  line(move) {
+  line(move, width, colour) {
     return {
       orig: move.substring(0, 2),
       dest: move.substring(2, 4),
-      brush: "blue"
+      brush: colour,
+      modifiers: {
+        lineWidth: width
+      }
     }
   }
 
-  piece(position) {
-    return {
-      orig: position.targetSquare,
-      brush: this.brush(position.score),
-      piece: {
-        color: "white",
-        role: "king",
-        scale: 0.3
-      }
+  private altBrush(score) {
+    switch (score) {
+      case "win":
+        return "red"
+      case "lose":
+        return "green"
+      case "drawn":
+        return "blue"
+      default:
+        return "blue"
     }
   }
 
