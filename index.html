@@ -14,38 +14,35 @@
 </head>
 
 <body>
-  <h4>perturb-o-tron</h4>
+  <h4>Perturb-o-tron</h4>
   <div class="all">
     <div class="cell">
       <section class="blue merida">
         <div id="chessground-examples"></div>
       </section>
       <br/>
-      <div id="status">Status</div>
-      <br/> FEN: <input type="text" id="fen" name="fen" value="1K6/1P1k1r2/8/8/8/R7/8/8 w - - 0 1" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" />
+      <br/> Status :
+      <div id="status"></div>
     </div>
     <div class="cell">
-      Perturb:
-      <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> Depth:
-      <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
-      <br/>
-      <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White
-      <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
-      <button onclick="analyse()">Perturb</button>
-      <button onclick="lichessEditor()">Lichess editor</button>
-      <br/>
-      <br/>
+      <pre>
+      FEN     : <input type="text" id="fen" name="fen" value="8/8/4k3/8/8/8/4PK2/8 w - - 0 2" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /><button onclick="lichessEditor()">Edit</button>
+      Depth   : <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
+      To play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
+      Perturb : <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> <button onclick="analyse()">Select</button>
+      Explore : 
+      
       <div id="explorer"></div>
+      </pre>
     </div>
   </div>
 </body>
 
 <script defer>
-  /* global bundle, WebAssembly */
+  /* global bundle, WebAssembly, history */
 
   var fen = elt('fen').value;
   var chessground = bundle.Chessground(elt('chessground-examples'), bundle.AnalysisBoard.config(fen));
-
   var analysisBoard = new bundle.AnalysisBoard(loadStockfish(), chessground);
 
   var params = bundle.parse(window.location.href);
@@ -61,13 +58,12 @@
   }
 
   function onSelected(square) {
-    elt('perturb').value = square;
-    var fen = chessground.getFen() + elt('fen').value.replace(/[^ ]*/, '');
-    var perturb = elt('perturb').value;
-    elt('fen').value = fen;
-    analysisBoard.depth(elt('depth').value);
     setStatus("Perturbing " + square);
-    analysisBoard.perturb(fen, perturb);
+    var fen = chessground.getFen() + elt('fen').value.replace(/[^ ]*/, '');
+    elt('fen').value = fen;
+    elt('perturb').value = square;
+    analysisBoard.depth(elt('depth').value);
+    analysisBoard.perturb(fen, square);
     elt('explorer').innerHTML = analysisBoard.views();
     updateUrlWithState();
   }
@@ -81,22 +77,26 @@
   }
 
   function fenInputToBoard() {
-    elt('explorer').innerHTML = ''
+    elt('explorer').innerHTML = '';
     showFen(bundle.Util.fullFen(elt('fen').value));
   }
 
   function showFen(fen) {
     elt('fen').value = fen;
-    analysisBoard.showFen(fen)
+    elt('colour').checked = fen.includes('w');
+    elt('colourOther').checked = !fen.includes('w');
+    analysisBoard.showFen(fen);
   }
 
   function showFenAndPv(square) {
     analysisBoard.showFenAndPv(square);
-    elt('fen').value = bundle.Util.fullFen(analysisBoard.fenForTarget(square))
+    elt('perturb').value = square;
+    elt('fen').value = bundle.Util.fullFen(analysisBoard.fenForTarget(square));
+    updateUrlWithState();
   }
 
   function switchColourToPlay() {
-    var colour = document.getElementById('colour').checked ? 'w' : 'b';
+    var colour = elt('colour').checked ? 'w' : 'b';
     elt('fen').value = elt('fen').value.replace(/[wb]/, colour);
     fenInputToBoard();
   }
@@ -117,9 +117,7 @@
 
   function updateUrlWithState() {
     if (history.pushState) {
-      var newurl = window.location.protocol + "//" +
-        window.location.host +
-        window.location.pathname + "?" +
+      var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + "?" +
         bundle.build({ fen: elt('fen').value, perturb: elt('perturb').value });
       window.history.pushState({
         path: newurl
