@@ -21,10 +21,7 @@ export class Event {
 
   pv() {
     var pv = Event.pvPattern.exec(this.event)
-    if (pv) {
-      return pv[1].split(" ")
-    }
-    return []
+    return pv ? pv[1].split(" ") : []
   }
 
   score() {

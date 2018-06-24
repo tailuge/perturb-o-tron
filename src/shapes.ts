@@ -43,8 +43,6 @@ export class Shapes {
         return "red"
       case "lose":
         return "green"
-      case "drawn":
-        return "blue"
       default:
         return "blue"
     }

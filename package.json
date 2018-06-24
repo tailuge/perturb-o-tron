@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "chess.js": "^0.10",
-    "chessground": "^7.3"
+    "chessground": "^7.3",
+    "search-params": "^2.1.3"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.3",
