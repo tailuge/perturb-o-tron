@@ -15,10 +15,12 @@ export class StockfishQueue {
   private readonly stockfish
   private readonly log
   private readonly workItems: WorkItem[] = []
+  private readonly allComplete
   public depth: number
 
-  constructor(stockfish, log) {
+  constructor(stockfish, allComplete, log) {
     this.stockfish = stockfish
+    this.allComplete = allComplete
     this.log = log
     this.depth = 8
     this.send("setoption name MultiPV value 1")
@@ -40,6 +42,8 @@ export class StockfishQueue {
       completeItem!.onComplete(completeItem!.position)
       if (this.workItems.length > 0) {
         this.processNextWorkItem()
+      } else {
+        this.allComplete()
       }
       return
     }

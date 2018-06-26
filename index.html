@@ -16,24 +16,33 @@
 <body>
   <h4>Perturb-o-tron</h4>
   <div class="all">
-    <div class="cell">
+    <div class="cellleft">
       <section class="blue merida">
         <div id="chessground-examples"></div>
       </section>
-      <br/>
+      <br/> FEN : <input type="text" id="fen" name="fen" value="8/8/4k3/8/8/8/4PK2/8 w - - 0 2" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /><button onclick="lichessEditor()">Edit</button>
+      <br/> 
+      <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('p','w')">+♟</button>
+      <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('n','w')">+♞</button>
+      <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('b','w')">+♝</button>
+      <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('r','w')">+♜</button>
+      <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('q','w')">+♛</button>
+      <button type="button" class="addBlack" onClick="analysisBoard.placePieceMode('p','b')">+♟</button>
+      <button type="button" class="addBlack" onClick="analysisBoard.placePieceMode('n','b')">+♞</button>
+      <button type="button" class="addBlack" onClick="analysisBoard.placePieceMode('b','b')">+♝</button>
+      <button type="button" class="addBlack" onClick="analysisBoard.placePieceMode('r','b')">+♜</button>
+      <button type="button" class="addBlack" onClick="analysisBoard.placePieceMode('q','b')">+♛</button>
       <br/> Status :
       <div id="status"></div>
     </div>
-    <div class="cell">
-      <pre>
-      FEN     : <input type="text" id="fen" name="fen" value="8/8/4k3/8/8/8/4PK2/8 w - - 0 2" style="width: 250px;" onkeydown="onPressEnter(event,fenInputToBoard)" /><button onclick="lichessEditor()">Edit</button>
-      Depth   : <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
-      To play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
-      Perturb : <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> <button onclick="analyse()">Select</button>
-      Explore : 
-      
+    <div class="cellright">
+      Explore :
+      <br/>
       <div id="explorer"></div>
-      </pre>
+      <br/> Depth : <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
+      <br/> To play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
+      <br/> Perturb : <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> <button onclick="analyse()">Select</button>
+
     </div>
   </div>
 </body>

@@ -2,6 +2,7 @@ import { StockfishQueue } from "./stockfishqueue"
 import { Generator } from "./generator"
 import { Shapes } from "./shapes"
 import { Position } from "./position"
+import { Util } from "./util"
 import { Chess } from "chess.js"
 
 export class AnalysisBoard {
@@ -11,7 +12,11 @@ export class AnalysisBoard {
   private onSelect
   private positionMap: { [key: string]: Position } = {}
   constructor(stockfish, chessground) {
-    this.stockfishQueue = new StockfishQueue(stockfish, console.log)
+    this.stockfishQueue = new StockfishQueue(
+      stockfish,
+      this.allComplete,
+      console.log
+    )
     this.chessground = chessground
   }
 
@@ -27,15 +32,26 @@ export class AnalysisBoard {
       highlight: {
         lastMove: true,
         check: false
+      },
+      draggable: {
+        deleteOnDropOff: true
       }
     }
   }
+
+  allComplete() {}
 
   perturb(fen, perturbedSquare) {
     this.clear()
     this.positionMap = {}
     this.chessground.set(AnalysisBoard.config(fen))
-    new Generator(fen).perturb(perturbedSquare).forEach(p => {
+    var positions = new Generator(fen).perturb(perturbedSquare)
+    positions.sort(
+      (a, b) =>
+        Util.distance(a.targetSquare, perturbedSquare) -
+        Util.distance(b.targetSquare, perturbedSquare)
+    )
+    positions.forEach(p => {
       this.positionMap[p.targetSquare] = p
       this.stockfishQueue.enqueue(p, x => {
         this.annotate(x)
@@ -77,6 +93,28 @@ export class AnalysisBoard {
         select: x => this.selectPerturbedPiece(x)
       }
     })
+  }
+
+  placePieceMode(p, c) {
+    this.chessground.set({
+      movable: {
+        color: undefined
+      },
+      events: {
+        select: x => this.addPiece({ type: p, color: c }, x)
+      }
+    })
+  }
+
+  addPiece(piece, x) {
+    console.log(this.chessground.getFen())
+    var fen = this.chessground.getFen() + " w - - 0 2"
+    console.log(fen)
+    var chess = new Chess(fen)
+    console.log(chess.fen())
+    chess.put(piece, x)
+    console.log(chess.fen())
+    this.showFen(chess.fen())
   }
 
   selectPerturbedPiece(square) {

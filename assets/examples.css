@@ -16,6 +16,7 @@ h4 {
   text-align: center;
 }
 
+
 select,
 input {
   margin: 4px;
@@ -33,6 +34,18 @@ input {
   height: 30px;
 }
 
+.addWhite {
+  color: grey;
+  width: 34px;
+  height: 34px;
+}
+
+.addBlack {
+  background-color: #666;
+  width: 34px;
+  height: 34px;
+}
+
 .inputs {
   background-color: #222;
   border-radius: 3px;
@@ -41,11 +54,20 @@ input {
 }
 
 .all {
+  width: 748px;
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 464px 282px;
+  position: absolute;
+  margin: auto;
+  top: 20;
+  right: 0;
+  left: 0;
 }
 
-.cell {
-  width: 50%;
-  margin: 0 auto;
+.cellleft {
+  width: 100%;
+}
+
+.cellright {
+  width: 100%;
 }

@@ -25,4 +25,9 @@ describe("Util", () => {
     )
     done()
   })
+
+  it("distance", done => {
+    expect(Util.distance("a1", "a2")).to.equal(1)
+    done()
+  })
 })

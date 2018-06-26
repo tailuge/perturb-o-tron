@@ -32,7 +32,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Initialise ok", done => {
-    new StockfishQueue(stockfishInterface, nop)
+    new StockfishQueue(stockfishInterface, nop, nop)
     let eventListener = addEventListener.firstCall.args[1]
     sinon.assert.calledOnce(postMessage)
     sinon.assert.calledOnce(addEventListener)
@@ -41,7 +41,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Enqueue calls stockfish", done => {
-    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop, nop)
     stockfishQueue.enqueue(endgame, nop)
     sinon.assert.calledOnce(addEventListener)
     sinon.assert.calledThrice(postMessage)
@@ -49,7 +49,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Enqueue does not start 2 calls stockfish at once", done => {
-    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop, nop)
     stockfishQueue.enqueue(endgame, nop)
     stockfishQueue.enqueue(endgame, nop)
     sinon.assert.calledOnce(addEventListener)
@@ -58,7 +58,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Non scoring event handled without exception", done => {
-    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop, nop)
     stockfishQueue.enqueue(endgame, nop)
     let eventListener = addEventListener.firstCall.args[1]
     eventListener({ data: "some string" })
@@ -66,7 +66,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Scoring event followed by bestmove handled", done => {
-    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop, nop)
     let onComplete = sinon.spy(({}) => {})
     stockfishQueue.enqueue(endgame, onComplete)
     let eventListener = addEventListener.firstCall.args[1]
@@ -78,7 +78,7 @@ describe("StockfishQueue", () => {
   })
 
   it("Completion of first item triggers next", done => {
-    let stockfishQueue = new StockfishQueue(stockfishInterface, nop)
+    let stockfishQueue = new StockfishQueue(stockfishInterface, nop, nop)
     let eventListener = addEventListener.firstCall.args[1]
     let onComplete1 = sinon.spy(({}) => {})
     let onComplete2 = sinon.spy(({}) => {})
