@@ -1,7 +1,7 @@
 /* Unrelated to chessground; only for the examples page */
 
 body {
-  background-image: linear-gradient(to bottom, #2c2c2c, #2a2a2a 116px);
+  background: #1c1c1c;
   color: #b0b0b0;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
@@ -16,6 +16,9 @@ h4 {
   text-align: center;
 }
 
+div {
+  border: 1px solid #333;
+}
 
 select,
 input {
@@ -29,9 +32,11 @@ input {
   color: black;
 }
 
+
 .explorer {
-  width: 30px;
-  height: 30px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #555;
 }
 
 .addWhite {
@@ -53,10 +58,30 @@ input {
   margin: 2px 2px;
 }
 
+.explorerContainer {
+  width: 272px;
+  height: 272px;
+  min-height: 272px;
+  min-width: 272px;
+  background-color: #222;
+  border: 1px solid #333;
+}
+
+.status {
+  margin-top: 8px;
+  background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
+  border: 1px solid #555;
+  border-radius: 2px;
+  text-shadow: 0 1px 0 #000;
+  padding: 10px;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
 .all {
-  width: 748px;
+  width: 768px;
   display: grid;
-  grid-template-columns: 464px 282px;
+  grid-template-columns: 464px 292px;
   position: absolute;
   margin: auto;
   top: 20;
@@ -70,4 +95,23 @@ input {
 
 .cellright {
   width: 100%;
+  background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
+  border: 1px solid #555;
+  border-radius: 2px;
+  text-shadow: 0 1px 0 #000;
+  padding: 10px;
+}
+
+.fen {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
+}
+
+.editButtons {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80%;
 }

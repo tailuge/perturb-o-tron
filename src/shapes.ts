@@ -17,7 +17,7 @@ export class Shapes {
   }
 
   pv(position) {
-    return position.pv.map((m, i) => {
+    return position.pv.slice(0, 4).map((m, i) => {
       return this.line(
         m,
         Math.max((16 - i) / 2, 2),
