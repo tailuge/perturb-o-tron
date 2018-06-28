@@ -17,7 +17,6 @@ h4 {
 }
 
 div {
-  border: 1px solid #333;
 }
 
 select,
@@ -30,13 +29,6 @@ input {
 #Search {
   background-color: lightgrey;
   color: black;
-}
-
-
-.explorer {
-  width: 34px;
-  height: 34px;
-  border: 1px solid #555;
 }
 
 .addWhite {
@@ -58,13 +50,27 @@ input {
   margin: 2px 2px;
 }
 
+.explorer {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #555;
+}
+
+.win {
+  background-color: green;
+}
+
+.drawn {
+  background-color: gold;
+}
+
+.lose {
+  background-color: red;
+}
+
 .explorerContainer {
-  width: 272px;
-  height: 272px;
-  min-height: 272px;
   min-width: 272px;
-  background-color: #222;
-  border: 1px solid #333;
+  min-height: 272px;
 }
 
 .status {

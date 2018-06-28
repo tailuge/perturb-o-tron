@@ -3,6 +3,7 @@ import { Generator } from "./generator"
 import { Shapes } from "./shapes"
 import { Position } from "./position"
 import { Util } from "./util"
+import { Ui } from "./ui"
 import { Chess } from "chess.js"
 
 export class AnalysisBoard {
@@ -11,11 +12,12 @@ export class AnalysisBoard {
   private shapes = new Shapes()
   private onSelect
   private positionMap: { [key: string]: Position } = {}
+
   constructor(stockfish, chessground) {
     this.stockfishQueue = new StockfishQueue(
       stockfish,
-      this.allComplete,
-      console.log
+      () => this.allComplete(),
+      ({}) => {}
     )
     this.chessground = chessground
   }
@@ -39,7 +41,27 @@ export class AnalysisBoard {
     }
   }
 
-  allComplete() {}
+  allComplete() {
+    let summary = {}
+    summary["win"] = 0
+    summary["lose"] = 0
+    summary["drawn"] = 0
+
+    Object.keys(this.positionMap).forEach(k => {
+      let v = this.positionMap[k]
+      if (v) {
+        if (v.score) {
+          summary[v.score]++
+        }
+      }
+    })
+    Ui.setStatus(
+      `wins:${summary["win"]} loses:${summary["lose"]} draws:${
+        summary["drawn"]
+      }`
+    )
+    this.updateExplorerView()
+  }
 
   perturb(fen, perturbedSquare) {
     this.clear()
@@ -59,24 +81,20 @@ export class AnalysisBoard {
     })
   }
 
-  views() {
+  updateExplorerView() {
     var squares = new Chess().SQUARES
     var result = ""
     squares.forEach(square => {
-      result += '<button class="explorer" type="button" '
       let p = this.positionMap[square]
-
-      if (p) {
-        let sq = p.targetSquare
-        result += `onClick="showFenAndPv('${sq}')">${sq}</button>`
-      } else {
-        result += "> - </button>"
-      }
+      let text = p ? square : "-"
+      let target = p ? p.targetSquare : ""
+      let classes = "explorer " + (p && p.score ? p.score : "")
+      result += Ui.button(text, classes, `showFenAndPv('${target}')`)
       if (square.includes("h")) {
         result += "<br/>"
       }
     })
-    return result
+    Ui.setExplorerView(result)
   }
 
   depth(depth) {

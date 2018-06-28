@@ -43,7 +43,6 @@
       <br/> Depth : <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
       <br/> To play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
       <br/> Perturb piece on : <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> <button onclick="analyse()">Select</button>
-      <br/> Status :
     </div>
     <div class="status" id="status">Ready</div>
   </div>
@@ -75,7 +74,7 @@
     elt('perturb').value = square;
     analysisBoard.depth(elt('depth').value);
     analysisBoard.perturb(fen, square);
-    elt('explorer').innerHTML = analysisBoard.views();
+    analysisBoard.updateExplorerView();
     updateUrlWithState();
   }
 
@@ -88,7 +87,7 @@
   }
 
   function fenInputToBoard() {
-    elt('explorer').innerHTML = '';
+    elt('explorer').innerHTML = '&nbsp';
     showFen(bundle.Util.fullFen(elt('fen').value));
   }
 
@@ -100,10 +99,12 @@
   }
 
   function showFenAndPv(square) {
-    analysisBoard.showFenAndPv(square);
-    elt('perturb').value = square;
-    elt('fen').value = bundle.Util.fullFen(analysisBoard.fenForTarget(square));
-    updateUrlWithState();
+    if (square !== "") {
+      analysisBoard.showFenAndPv(square);
+      elt('perturb').value = square;
+      elt('fen').value = bundle.Util.fullFen(analysisBoard.fenForTarget(square));
+      updateUrlWithState();
+    }
   }
 
   function switchColourToPlay() {
