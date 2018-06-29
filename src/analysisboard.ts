@@ -55,10 +55,11 @@ export class AnalysisBoard {
         }
       }
     })
+
     Ui.setStatus(
-      `wins:${summary["win"]} loses:${summary["lose"]} draws:${
-        summary["drawn"]
-      }`
+      `Perturbing piece on .. results in positions with ${
+        summary["win"]
+      } wins, ${summary["lose"]} loses and ${summary["drawn"]} draws.`
     )
     this.updateExplorerView()
   }
@@ -133,6 +134,14 @@ export class AnalysisBoard {
     chess.put(piece, x)
     console.log(chess.fen())
     this.showFen(chess.fen())
+    this.chessground.set({
+      movable: {
+        color: "both"
+      },
+      events: {
+        select: undefined
+      }
+    })
   }
 
   selectPerturbedPiece(square) {

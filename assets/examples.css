@@ -24,6 +24,9 @@ input {
   margin: 4px;
   background-color: black;
   color: #cccccc;
+  border-radius: 3px;
+  border: 1px solid #555;
+  padding-left: 2px;
 }
 
 #Search {
@@ -32,15 +35,37 @@ input {
 }
 
 .addWhite {
-  color: grey;
-  width: 34px;
+  color: lightgrey;
+  background-color: #666;
+  width: 42px;
   height: 34px;
+  border-radius: 3px;
+  background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
+  border: 1px solid #555;
+  text-shadow: 0 1px 0 #000;
+  font-size: large;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
 }
 
 .addBlack {
+  color: black;
   background-color: #666;
-  width: 34px;
+  width: 42px;
   height: 34px;
+  border-radius: 3px;
+  background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
+  border: 1px solid #555;
+  text-shadow: 0 -1px 0 #999;
+  font-size: large;
+  margin: 0;
+}
+
+.editButtons {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
 
 .inputs {
@@ -51,9 +76,11 @@ input {
 }
 
 .explorer {
-  width: 34px;
-  height: 34px;
-  border: 1px solid #555;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #333;
+  border-radius: 2px;
+  background-color: grey;
 }
 
 .win {
@@ -69,12 +96,17 @@ input {
 }
 
 .explorerContainer {
-  min-width: 272px;
-  min-height: 272px;
+  width: 256px;
+  height: 256px;
+  min-width: 256px;
+  min-height: 256px;
+  background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
+  border: 1px solid #555;
+  border-radius: 2px;
 }
 
 .status {
-  margin-top: 8px;
+  margin-top: 4px;
   background-image: linear-gradient(rgb(44, 44, 44), rgb(40, 40, 40) 100%);
   border: 1px solid #555;
   border-radius: 2px;
@@ -82,12 +114,13 @@ input {
   padding: 10px;
   grid-column-start: 1;
   grid-column-end: 3;
+  width: 100%;
 }
 
 .all {
-  width: 768px;
+  width: 744px;
   display: grid;
-  grid-template-columns: 464px 292px;
+  grid-template-columns: 464px 260px;
   position: absolute;
   margin: auto;
   top: 20;
@@ -110,14 +143,8 @@ input {
 
 .fen {
   display: block;
-  margin-left: auto;
+  margin-left: 0;
   margin-right: auto;
-  width: 80%;
+  width: 96%;
 }
 
-.editButtons {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-}

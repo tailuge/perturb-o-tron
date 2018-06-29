@@ -14,15 +14,15 @@
 </head>
 
 <body>
-  <h4>Perturb-o-tron</h4>
+  <h4>Perturb-<a href="https://github.com/tailuge">o-tron</a></h4>
   <div class="all">
     <div class="cellleft">
       <section class="blue merida">
         <div id="chessground-examples"></div>
       </section>
       <br/>
-      <input type="text" class="fen" id="fen" name="fen" value="8/8/4k3/8/8/8/4PK2/8 w - - 0 2" style="width: 80%;" onkeydown="onPressEnter(event,fenInputToBoard)" />
       <div class="editButtons">
+        <input type="text" class="fen" id="fen" name="fen" value="8/8/4k3/8/8/8/4PK2/8 w - - 0 2" onkeydown="onPressEnter(event,fenInputToBoard)" />
         <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('p','w')">+♟</button>
         <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('n','w')">+♞</button>
         <button type="button" class="addWhite" onClick="analysisBoard.placePieceMode('b','w')">+♝</button>
@@ -36,13 +36,22 @@
       </div>
     </div>
     <div class="cellright">
-      Explorer
-      <br/>
       <div class="explorerContainer" id="explorer">&nbsp</div>
       <!-- <button onclick="lichessEditor()">Explore on Lichess</button> -->
-      <br/> Depth : <input type="text" name="depth" id="depth" value="8" style="width: 30px;" />
-      <br/> To play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
-      <br/> Perturb piece on : <input type="text" id="perturb" name="perturb" value="b8" style="width: 30px;" readonly/> <button onclick="analyse()">Select</button>
+      <br/> Stockfish search depth : <input type="text" name="depth" id="depth" value="12" style="width: 18px;" />
+      <br/> Side to play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
+      <br/> Perturb piece on : <input type="text" id="perturb" name="perturb" value="b8" style="width: 18px;" readonly/> <button onclick="analyse()">Select and Perturb</button>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/> examples:
+      <br/>
+      <br/>
+      <a href="./index.html?fen=8%2F5K2%2F8%2F8%2F4pk2%2F8%2F8%2FR7%20w%20-%20-%200%202&perturb=f7">JV-21</a>,
+      <a href="./index.html?fen=7K%2F6R1%2F1k6%2Fp7%2F8%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=g7">JV-22</a>,
+      <a href="./index.html?fen=7R%2F8%2F2K5%2F8%2F1pk5%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=c6">JV-23</a>,
+      <a href="./index.html?fen=8%2F8%2F4k3%2F8%2F8%2F8%2F4PK2%2F8%20w%20-%20-%200%202&perturb=e6">Opp-1</a>
     </div>
     <div class="status" id="status">Ready</div>
   </div>
