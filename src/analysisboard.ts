@@ -126,13 +126,9 @@ export class AnalysisBoard {
   }
 
   addPiece(piece, x) {
-    console.log(this.chessground.getFen())
     var fen = this.chessground.getFen() + " w - - 0 2"
-    console.log(fen)
     var chess = new Chess(fen)
-    console.log(chess.fen())
     chess.put(piece, x)
-    console.log(chess.fen())
     this.showFen(chess.fen())
     this.chessground.set({
       movable: {
@@ -179,6 +175,7 @@ export class AnalysisBoard {
     this.chessground.set({
       fen: fen
     })
+    Ui.setFen(fen)
   }
 
   private annotate(position) {

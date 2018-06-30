@@ -11,7 +11,13 @@ export class Ui {
     let elt = document.getElementById("explorer")
     if (elt) {
       elt.innerHTML = innerHtml
-      console.log(innerHtml)
+    }
+  }
+
+  static setFen(fen) {
+    let elt = <HTMLInputElement>document.getElementById("fen")
+    if (elt) {
+      elt.value = fen
     }
   }
 

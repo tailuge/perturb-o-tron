@@ -83,6 +83,10 @@ input {
   background-color: grey;
 }
 
+.explorer:hover{
+  border: 1px solid #aaa;
+}
+
 .win {
   background-color: green;
 }

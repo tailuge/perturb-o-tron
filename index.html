@@ -38,7 +38,7 @@
     <div class="cellright">
       <div class="explorerContainer" id="explorer">&nbsp</div>
       <!-- <button onclick="lichessEditor()">Explore on Lichess</button> -->
-      <br/> Stockfish search depth : <input type="text" name="depth" id="depth" value="12" style="width: 18px;" />
+      <br/> Stockfish search depth : <input type="text" name="depth" id="depth" value="14" style="width: 18px;" onkeydown="onPressEnter(event,perturb)"/>
       <br/> Side to play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
       <br/> Perturb piece on : <input type="text" id="perturb" name="perturb" value="b8" style="width: 18px;" readonly/> <button onclick="analyse()">Select and Perturb</button>
       <br/>
@@ -52,6 +52,10 @@
       <a href="./index.html?fen=7K%2F6R1%2F1k6%2Fp7%2F8%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=g7">JV-22</a>,
       <a href="./index.html?fen=7R%2F8%2F2K5%2F8%2F1pk5%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=c6">JV-23</a>,
       <a href="./index.html?fen=8%2F8%2F4k3%2F8%2F8%2F8%2F4PK2%2F8%20w%20-%20-%200%202&perturb=e6">Opp-1</a>
+      <a href="./index.html?fen=8%2F8%2F8%2F8%2F3k3P%2F8%2F8%2F2K5%20w%20-%20-%200%202&perturb=d4">RoSq-1</a>
+      <a href="./index.html?fen=8%2F8%2F8%2F8%2FP3k3%2FK7%2F8%2F8%20w%20-%20-%200%202&perturb=e4">RoSq-2</a>
+      <a href="./index.html?fen=7K%2F8%2Fk1P5%2F7p%2F8%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=h8">Reti</a>
+      <a href="./index.html?fen=8%2F7K%2F5k2%2F7P%2F8%2F8%2F8%2F8%20w%20-%20-%200%202&perturb=f6">Shoulder</a>
     </div>
     <div class="status" id="status">Ready</div>
   </div>
@@ -76,6 +80,10 @@
     analysisBoard.selectMode(onSelected);
   }
 
+  function perturb() {
+    onSelected(elt('perturb').value);
+  }
+  
   function onSelected(square) {
     setStatus("Perturbing " + square);
     var fen = chessground.getFen() + elt('fen').value.replace(/[^ ]*/, '');
