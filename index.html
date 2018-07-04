@@ -38,7 +38,7 @@
     <div class="cellright">
       <div class="explorerContainer" id="explorer">&nbsp</div>
       <!-- <button onclick="lichessEditor()">Explore on Lichess</button> -->
-      <br/> Stockfish search depth : <input type="text" name="depth" id="depth" value="14" style="width: 18px;" onkeydown="onPressEnter(event,perturb)"/>
+      <br/> Stockfish search depth : <input type="text" name="depth" id="depth" value="17" style="width: 18px;" onkeydown="onPressEnter(event,perturb)"/>
       <br/> Side to play : <input type="radio" name="colour" id="colour" value="white" checked onclick="switchColourToPlay();"> White <input type="radio" name="colour" id="colourOther" value="black" onclick="switchColourToPlay();"> Black
       <br/> Perturb piece on : <input type="text" id="perturb" name="perturb" value="b8" style="width: 18px;" readonly/> <button onclick="analyse()">Select and Perturb</button>
       <br/>
@@ -68,9 +68,9 @@
   /* global bundle, WebAssembly, history */
 
   var fen = elt('fen').value;
-  var chessground = bundle.Chessground(elt('chessground-examples'), bundle.AnalysisBoard.config(fen));
+  var chessground = bundle.Chessground(elt('chessground-examples'));
   var analysisBoard = new bundle.AnalysisBoard(loadStockfish(), chessground);
-
+  chessground.set(analysisBoard.config(fen))
   var params = bundle.parse(window.location.href);
   if (params.fen) {
     elt('perturb').value = params.perturb;
@@ -143,7 +143,7 @@
 
   function loadStockfish() {
     var wasmSupported = typeof WebAssembly === 'object' && WebAssembly.validate(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
-    console.log("wasmSupported:" + wasmSupported);
+    setStatus("wasmSupported:" + wasmSupported);
     return new Worker(wasmSupported ? 'vendor/stockfish.wasm.js' : 'vendor/stockfish.js');
   }
 

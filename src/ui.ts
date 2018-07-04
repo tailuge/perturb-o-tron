@@ -14,7 +14,7 @@ export class Ui {
     }
   }
 
-  static setFen(fen) {
+  static setFen(fen: string) {
     let elt = <HTMLInputElement>document.getElementById("fen")
     if (elt) {
       elt.value = fen
@@ -23,5 +23,15 @@ export class Ui {
 
   static button(text, type, onClick) {
     return `<button class="${type}" type="button" onClick="${onClick}">${text}</button>`
+  }
+
+  static sideToPlay() {
+    return (<HTMLInputElement>document.getElementById("colour")).checked
+      ? "w"
+      : "b"
+  }
+
+  static perturbed() {
+    return (<HTMLInputElement>document.getElementById("perturb")).value
   }
 }

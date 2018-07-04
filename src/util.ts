@@ -25,4 +25,8 @@ export class Util {
     let b = Util.coordinates(squareB)
     return Math.max(Math.abs(a.x - b.x), Math.abs(a.y - b.y))
   }
+
+  static repairFen(fen, sideToPlay) {
+    return fen.split(" ")[0] + (sideToPlay == "w" ? " w - - 0 2" : " b - - 0 1")
+  }
 }

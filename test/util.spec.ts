@@ -30,4 +30,23 @@ describe("Util", () => {
     expect(Util.distance("a1", "a2")).to.equal(1)
     done()
   })
+
+  it("repairFen", done => {
+    expect(Util.repairFen("8/8/4k3/8/8/8/4PK2/8 w - - 0 2", "w")).to.equal(
+      "8/8/4k3/8/8/8/4PK2/8 w - - 0 2"
+    )
+    expect(Util.repairFen("8/8/4k3/8/8/8/4PK2/8", "w")).to.equal(
+      "8/8/4k3/8/8/8/4PK2/8 w - - 0 2"
+    )
+    expect(Util.repairFen("8/8/4k3/8/8/8/4PK2/8 w", "w")).to.equal(
+      "8/8/4k3/8/8/8/4PK2/8 w - - 0 2"
+    )
+    expect(Util.repairFen("8/8/4k3/8/8/8/4PK2/8 b - - 0 1", "b")).to.equal(
+      "8/8/4k3/8/8/8/4PK2/8 b - - 0 1"
+    )
+    expect(Util.repairFen("8/8/4k3/8/8/8/4PK2/8", "b")).to.equal(
+      "8/8/4k3/8/8/8/4PK2/8 b - - 0 1"
+    )
+    done()
+  })
 })

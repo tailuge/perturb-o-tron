@@ -22,7 +22,7 @@ export class AnalysisBoard {
     this.chessground = chessground
   }
 
-  static config(fen) {
+  public config(fen) {
     return {
       fen: fen,
       drawable: {
@@ -37,6 +37,14 @@ export class AnalysisBoard {
       },
       draggable: {
         deleteOnDropOff: true
+      },
+      movable: {
+        events: {
+          after: () =>
+            Ui.setFen(
+              Util.repairFen(this.chessground.getFen(), Ui.sideToPlay())
+            )
+        }
       }
     }
   }
@@ -57,7 +65,7 @@ export class AnalysisBoard {
     })
 
     Ui.setStatus(
-      `Perturbing piece on .. results in positions with ${
+      `Perturbing piece on ${Ui.perturbed()} results in positions with ${
         summary["win"]
       } wins, ${summary["lose"]} loses and ${summary["drawn"]} draws.`
     )
@@ -67,7 +75,7 @@ export class AnalysisBoard {
   perturb(fen, perturbedSquare) {
     this.clear()
     this.positionMap = {}
-    this.chessground.set(AnalysisBoard.config(fen))
+    this.chessground.set(this.config(fen))
     var positions = new Generator(fen).perturb(perturbedSquare)
     positions.sort(
       (a, b) =>
