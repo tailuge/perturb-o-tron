@@ -865,10 +865,10 @@ chess.js@^0.10:
   resolved "https://registry.yarnpkg.com/chess.js/-/chess.js-0.10.2.tgz#eacefa2067155f87f046e80cc12d2019eef1b81a"
   integrity sha1-6s76IGcVX4fwRugMwS0gGe7xuBo=
 
-chessground@^7.3:
-  version "7.6.10"
-  resolved "https://registry.yarnpkg.com/chessground/-/chessground-7.6.10.tgz#b837c11e27a8504c6f3ed06c659e8e2d8ea11f3e"
-  integrity sha512-kAnS6hy7NNdGLu6H1b2IOodwEHu9cDfaG/GVhh96KuBm2D9llZ2Ccf/j0sLwmMQctn3cIxOXV4yeRsT4/8szzg==
+chessground@7.3:
+  version "7.3.5"
+  resolved "https://registry.yarnpkg.com/chessground/-/chessground-7.3.5.tgz#2a673eaa19815e08ffc101379e8613ff9769834b"
+  integrity sha512-hawpf1+nJoJizv1eS7QNGbtplD1tAqyWqGR5H+jWH4yvamN6EiHV2jBRz1UEnlwhNTNltqa0haNwJ8e7rXojvw==
 
 chokidar@^2.0.0, chokidar@^2.1.1:
   version "2.1.8"

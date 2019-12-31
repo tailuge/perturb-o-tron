@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "chess.js": "^0.10",
-    "chessground": "^7.3",
+    "chessground": "7.3",
     "search-params": "^3.0.0"
   },
   "devDependencies": {
