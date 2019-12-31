@@ -11,11 +11,12 @@ function p(fen) {
 
 const endgame = p("7k/8/8/8/8/8/R7/R6K w - -")
 
+function nop(_) {}
+
 describe("StockfishQueue", () => {
   var stockfishInterface
   var postMessage
   var addEventListener
-  var nop = ({}) => {}
 
   beforeEach(function() {
     stockfishInterface = {
